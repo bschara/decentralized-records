@@ -86,7 +86,11 @@ contract HealthCard is ERC721 {
         string memory _id
     ) public view returns (string memory) {
         address userAddress = userAddressIDNumber[_id];
-        return getHealhCardByAddress(userAddress).link;
+        if (userAddress == address(0)) {
+            return "user is not registered";
+        } else {
+            return getHealhCardByAddress(userAddress).link;
+        }
     }
 
     function setEmergencyContacts(
