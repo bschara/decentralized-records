@@ -1,0 +1,17 @@
+/* body {
+    background-color: white;
+} */
+
+.head-page {
+  display: flex;
+  flex-direction: row;
+}
+
+.header-component {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  width: 250px;
+}
