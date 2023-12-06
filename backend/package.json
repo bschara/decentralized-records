@@ -11,8 +11,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@helia/strings": "^1.0.1",
+    "@libp2p/interface": "^0.1.6",
+    "@lighthouse-web3/sdk": "^0.2.9",
+    "@web3-storage/w3up-client": "^11.2.0",
+    "cborg": "^4.0.5",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "nodemon": "^3.0.1"
+    "helia": "^2.1.0",
+    "ipfs": "^0.66.1",
+    "ipfs-http-client": "^60.0.1",
+    "ipns": "^7.0.1",
+    "libp2p-crypto": "^0.21.2",
+    "minimist": "^1.2.8",
+    "nacl": "^0.1.3",
+    "nodemon": "^3.0.1",
+    "w3name": "^1.0.8"
   }
 }

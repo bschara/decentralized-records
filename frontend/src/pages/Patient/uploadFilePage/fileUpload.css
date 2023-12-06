@@ -1,0 +1,19 @@
+.file-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid c0bfbf;
+  border-radius: 8px;
+  background-color: white;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 8px #c0bfbf;
+  max-width: 25%;
+  margin-left: 35%;
+  padding: 5rem;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

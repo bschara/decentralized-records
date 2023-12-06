@@ -23,9 +23,35 @@ contract HealthCard is ERC721 {
         address[3] contacts;
     }
 
+    struct customCard {
+        string id;
+        address walletAddress;
+        string dateOfBirth;
+        string gender;
+        string bloodType;
+        string IdNumber;
+        address[3] contacts;
+    }
+
+    enum AccessStatus {
+        None,
+        Pending,
+        Approved,
+        Rejected
+    }
+
+    struct AccessRequest {
+        address hpprovider;
+        address patient;
+        AccessStatus status;
+        uint256 expiryTime;
+    }
+
     Card[] healthCards;
     mapping(address => Card) userHCards;
     mapping(string => address) userAddressIDNumber;
+    mapping(address => mapping(address => AccessRequest)) public accessRequests;
+
     uint256 public length = 0;
 
     Card private dummy =
@@ -42,7 +68,7 @@ contract HealthCard is ERC721 {
 
     function getHealhCardByAddress(
         address _address
-    ) public view returns (Card memory) {
+    ) private view returns (Card memory) {
         require(healthCards.length > 0);
         require(
             keccak256(abi.encodePacked(userHCards[_address].link)) !=
@@ -82,12 +108,14 @@ contract HealthCard is ERC721 {
         _mint(_walletAddress, tokenId);
     }
 
-    function getStorageLink(
+    function getStorageLinkPatient(
         string memory _id
     ) public view returns (string memory) {
         address userAddress = userAddressIDNumber[_id];
         if (userAddress == address(0)) {
             return "user is not registered";
+        } else if (msg.sender != userAddress) {
+            return "records only accessible by the patient";
         } else {
             return getHealhCardByAddress(userAddress).link;
         }
@@ -106,7 +134,7 @@ contract HealthCard is ERC721 {
 
     function getEmergencyContacts(
         string memory idNumber
-    ) public returns (address[3] memory contacts) {
+    ) public view returns (address[3] memory contacts) {
         address userAddress = userAddressIDNumber[idNumber];
         Card memory userCard = getHealhCardByAddress(userAddress);
         if (
@@ -118,6 +146,107 @@ contract HealthCard is ERC721 {
         } else {
             return userCard.contacts;
         }
+    }
+
+    function getStorageLinkForHP(
+        string memory _id,
+        address patient
+    ) public view returns (string memory) {
+        require(
+            accessRequests[msg.sender][patient].status == AccessStatus.Approved,
+            "Access not approved"
+        );
+        require(
+            block.timestamp <= accessRequests[msg.sender][patient].expiryTime,
+            "Access has expired"
+        );
+        address userAddress = userAddressIDNumber[_id];
+        if (userAddress == address(0)) {
+            return "user is not registered";
+        } else {
+            return getHealhCardByAddress(userAddress).link;
+        }
+    }
+
+    function changeStorageLink(string memory _link) public {
+        require(healthCards.length > 0, "there is no registered users");
+        require(
+            keccak256(abi.encodePacked(userHCards[msg.sender].link)) !=
+                keccak256(abi.encodePacked("")),
+            "User has no health card"
+        );
+        userHCards[msg.sender].link = _link;
+    }
+
+    function isRegistered(address userAddress) public view returns (bool) {
+        if (userHCards[userAddress].walletAddress == address(0)) {
+            return false;
+        }
+        return true;
+    }
+
+    event AccessRequested(address patient, address provider);
+    event AccessApproved(address patient, address provider);
+    event AccessRejected(address patient, address provider);
+
+    modifier onlyPatient(address patient) {
+        require(
+            msg.sender == patient,
+            "Only the patient can call this function"
+        );
+        require(
+            userHCards[patient].walletAddress != address(0),
+            "user is not a patient or doesnt have a medical card"
+        );
+        _;
+    }
+
+    function requestAccess(address patient) external {
+        require(
+            accessRequests[msg.sender][patient].status == AccessStatus.None,
+            "Access request already exists"
+        );
+
+        accessRequests[msg.sender][patient] = AccessRequest({
+            hpprovider: msg.sender,
+            patient: patient,
+            status: AccessStatus.Pending,
+            expiryTime: 0
+        });
+
+        emit AccessRequested(msg.sender, patient);
+    }
+
+    function approveAccess(address hprovider, uint256 duration) external {
+        require(
+            accessRequests[hprovider][msg.sender].status ==
+                AccessStatus.Pending,
+            "No pending access request"
+        );
+        require(
+            userHCards[msg.sender].walletAddress != address(0),
+            "user has no medical records"
+        );
+
+        accessRequests[hprovider][msg.sender].status = AccessStatus.Approved;
+        accessRequests[hprovider][msg.sender].expiryTime =
+            block.timestamp +
+            duration;
+
+        emit AccessApproved(msg.sender, hprovider);
+    }
+
+    function rejectAccess(address hprovider) external onlyPatient(msg.sender) {
+        // AccessRequest storage request = accessRequests[hprovider][msg.sender];
+        require(
+            accessRequests[hprovider][msg.sender].status ==
+                AccessStatus.Pending,
+            "No pending access request"
+        );
+
+        accessRequests[hprovider][msg.sender].status = AccessStatus.Rejected;
+
+        emit AccessRejected(msg.sender, hprovider);
     }
 
     modifier onlyOwner() {
