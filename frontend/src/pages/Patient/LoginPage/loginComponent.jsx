@@ -1,95 +1,17 @@
-// import React, { useState, useEffect } from "react";
-// import Web3 from "web3";
-// import HealhCard from "../../assets/HealthCard.json";
-
-// const LoginComponent = () => {
-//   // const web3 = new Web3("http://localhost:8545");
-//   const [walletAddress, setWalletAddress] = useState("");
-//   const [web3, setWeb3] = useState(null);
-//   const [isRegistered, setIsRegistered] = useState(false);
-
-//   const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
-//   const contractABI = HealhCard; // Insert your contract ABI here
-
-//   // Instantiate the contract
-//   const healthCardContract = new web3.eth.Contract(
-//     contractABI,
-//     contractAddress
-//   );
-
-//   //  const handleLogin = () => {
-
-//   //  }
-
-//   useEffect(() => {
-//     if (window.ethereum) {
-//       const web3Instance = new Web3(window.ethereum);
-//       // setWeb3(web3Instance);
-//     }
-//   }, []);
-
-//   const requestWalletAddress = async () => {
-//     if (web3) {
-//       try {
-//         const accounts = await web3.eth.requestAccounts();
-//         if (accounts.length > 0) {
-//           setWalletAddress(accounts[0]);
-//         }
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     } else {
-//       alert("MetaMask not detected. Please install it.");
-//     }
-//   };
-
-//   const handleLogin = async () => {
-//     if (!web3) {
-//       alert("MetaMask not detected. Please install it.");
-//     } else if (!walletAddress) {
-//       alert("Please connect your wallet before logging in.");
-//     } else {
-//       const isWalletRegistered = await healthCardContract.methods.isRegistered(
-//         walletAddress
-//       );
-//       if (isWalletRegistered) {
-//         alert("Login successful!");
-//         setIsRegistered(true);
-//       } else {
-//         alert("Wallet is not registered. Please sign up.");
-//       }
-//     }
-//   };
-
-//   const checkWalletRegistration = async (walletAddress) => {
-//     return true;
-//   };
-
-//   return (
-//     <div>
-//       <h2>Login </h2>
-//       <button onClick={requestWalletAddress}>Connect Wallet (MetaMask)</button>
-//       <div>
-//         {walletAddress && <p>Connected Wallet Address: {walletAddress}</p>}
-//       </div>
-//       <button onClick={handleLogin}>Login</button>
-//     </div>
-//   );
-// };
-
-// export default LoginComponent;
-
 import React, { useState, useEffect } from "react";
+import { Typography, Box, Stack, Button } from "@mui/material";
 import Web3 from "web3";
 import HealthCard from "../../../assets/HealthCard.json";
+import "./loginComponent.css";
+import { useHistory } from "react-router-dom";
 
 const LoginComponent = () => {
   const [web3, setWeb3] = useState(null);
   const [walletAddress, setWalletAddress] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
 
-  const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
-  const contractABI = HealthCard.abi; // Use `.abi` to access the ABI from the imported JSON
+  const contractAddress = "0x42155016cE4E12B54fCF2B085490B75a37E6ee6a";
+  const contractABI = HealthCard.abi; // Use .abi to access the ABI from the imported JSON
   const healthCardContract = web3
     ? new web3.eth.Contract(contractABI, contractAddress)
     : null;
@@ -150,14 +72,38 @@ const LoginComponent = () => {
   };
 
   return (
-    <div>
-      <h2>Login </h2>
-      <button onClick={requestWalletAddress}>Connect Wallet (MetaMask)</button>
-      <div>
-        {walletAddress && <p>Connected Wallet Address: {walletAddress}</p>}
-      </div>
-      <button onClick={handleLogin}>Login</button>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        backgroundColor: "#28ceb2",
+      }}
+    >
+      <Stack spacing={2} alignItems="center">
+        <Typography variant="h4">Login</Typography>
+        <Button
+          onClick={requestWalletAddress}
+          variant="contained"
+          color="primary"
+          className="customButton"
+        >
+          Connect Wallet (MetaMask)
+        </Button>
+        <div>
+          {walletAddress && <p>Connected Wallet Address: {walletAddress}</p>}
+        </div>
+        <Button
+          onClick={handleLogin}
+          variant="contained"
+          color="primary"
+          className="customButton"
+        >
+          Login
+        </Button>
+      </Stack>
+    </Box>
   );
 };
 
