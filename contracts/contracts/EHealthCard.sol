@@ -178,6 +178,27 @@ contract HealthCard is ERC721 {
         userHCards[msg.sender].link = _link;
     }
 
+    function changeStorageLinkForHP(
+        string memory _link,
+        address patient
+    ) public {
+        require(healthCards.length > 0, "there is no registered users");
+        require(
+            keccak256(abi.encodePacked(userHCards[patient].link)) !=
+                keccak256(abi.encodePacked("")),
+            "User has no health card"
+        );
+        require(
+            accessRequests[msg.sender][patient].status == AccessStatus.Approved,
+            "Access not approved"
+        );
+        require(
+            block.timestamp <= accessRequests[msg.sender][patient].expiryTime,
+            "Access has expired"
+        );
+        userHCards[patient].link = _link;
+    }
+
     function isRegistered(address userAddress) public view returns (bool) {
         if (userHCards[userAddress].walletAddress == address(0)) {
             return false;
@@ -237,7 +258,6 @@ contract HealthCard is ERC721 {
     }
 
     function rejectAccess(address hprovider) external onlyPatient(msg.sender) {
-        // AccessRequest storage request = accessRequests[hprovider][msg.sender];
         require(
             accessRequests[hprovider][msg.sender].status ==
                 AccessStatus.Pending,

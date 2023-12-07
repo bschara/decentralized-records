@@ -1,53 +1,39 @@
-/* Sidebar.css */
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
+/* SideBar.css */
 
 .container {
   display: flex;
+  height: 100vh;
 }
 
 .sidebar {
-  background-color: white;
-  color: black;
+  background-color: #28ceb2;
   padding: 20px;
-  width: 250px;
 }
 
-.sidebar h2 {
-  text-align: center;
-}
-
-.sidebar ul {
-  list-style: none;
+ul {
+  list-style-type: none;
   padding: 0;
 }
 
-.sidebar li {
+li {
+  margin-top: 50px;
   margin-bottom: 10px;
 }
 
-.sidebar a {
+a {
   text-decoration: none;
-  color: black;
+  color: white;
+  font-weight: bold;
 }
 
-.content {
-  padding: 20px;
-  flex-grow: 1;
-}
-
-/* Add responsive styles as needed */
-@media (max-width: 768px) {
+/* Media query for responsive design */
+@media screen and (max-width: 600px) {
   .container {
-    flex-direction: column;
+    flex-direction: column; /* Stack items vertically on small screens */
   }
 
   .sidebar {
-    width: 100%;
-    text-align: center;
+    width: 100%; /* Full width on small screens */
+    box-sizing: border-box;
   }
 }

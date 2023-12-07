@@ -1,19 +1,19 @@
-.file-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 2px solid c0bfbf;
-  border-radius: 8px;
-  background-color: white;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 8px #c0bfbf;
-  max-width: 25%;
-  margin-left: 35%;
-  padding: 5rem;
+/* fileUpload.css */
+
+.head-page {
+  /* Add any styles for the header */
 }
 
-.sidebar {
+.nabil {
+  /* Add any styles for the sidebar */
+}
+
+.file-form {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px; /* Adjust the margin as needed */
 }
+
+/* Add any other styling you need */

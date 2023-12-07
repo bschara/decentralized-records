@@ -1,5 +1,24 @@
 import React, { useState } from "react";
 import { Web3Storage } from "web3.storage";
+import { ethers } from "ethers";
+import HealthCard from "../../../assets/HealthCard.json";
+
+async function getStorageLink(id) {
+  const provider = new ethers.providers.JsonRpcProvider(
+    "http://localhost:8545"
+  );
+  const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+  const wallet = new ethers.Wallet(
+    "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
+    provider
+  );
+  const contract = new ethers.Contract(contractAddress, HealthCard.abi, wallet);
+
+  // Call the getStorageLinkPatient function
+  const result = await contract.getStorageLinkPatient(id);
+
+  console.log("Storage Link:", result);
+}
 
 const FileForm = () => {
   const [selectedFile, setSelectedFile] = useState(null);

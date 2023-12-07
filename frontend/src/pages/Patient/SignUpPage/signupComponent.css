@@ -13,7 +13,7 @@
   padding: 20px;
   border: 2px solid c0bfbf;
   border-radius: 8px;
-  background-color: white;
+  background-color: #28ceb2;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 8px #c0bfbf;
   width: 30%;
@@ -42,9 +42,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: white;
+  color: black;
 }
 
-body {
+.meta-button {
+  background-color: white;
+  color: black;
+}
+/* body {
   background-color: #25ace3;
   min-height: 100vh;
-}
+} */

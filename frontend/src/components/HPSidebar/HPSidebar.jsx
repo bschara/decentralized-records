@@ -1,4 +1,4 @@
-import "./HPSideBar.css";
+// import "./HPSideBar.css";
 
 const HPSideBar = () => {
   return (
@@ -16,7 +16,7 @@ const HPSideBar = () => {
             <a href="#">Appointments</a>
           </li>
           <li>
-            <a href="#">Emergency Portal</a>
+            <a href="/emergencyAccess">Emergency Portal</a>
           </li>
         </ul>
       </div>
