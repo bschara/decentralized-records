@@ -13,7 +13,7 @@ contract HealthCard is ERC721 {
     }
 
     struct Card {
-        string id;
+        uint256 id;
         string link;
         address walletAddress;
         string dateOfBirth;
@@ -52,11 +52,11 @@ contract HealthCard is ERC721 {
     mapping(string => address) userAddressIDNumber;
     mapping(address => mapping(address => AccessRequest)) public accessRequests;
 
-    uint256 public length = 0;
+    uint256 public length = 1;
 
     Card private dummy =
         Card(
-            "dummy",
+            0,
             "dummy",
             0x20cb94e4E6b287B9F9A4af6C1B2356468bA35bE3,
             "dummy",
@@ -80,7 +80,6 @@ contract HealthCard is ERC721 {
     }
 
     function mintHealthCard(
-        string memory _id,
         string memory _link,
         address _walletAddress,
         string memory _dateOfBirth,
@@ -89,7 +88,7 @@ contract HealthCard is ERC721 {
         string memory _IdNumber
     ) public onlyOwner {
         Card memory newCard = Card({
-            id: _id,
+            id: length,
             link: _link,
             walletAddress: _walletAddress,
             dateOfBirth: _dateOfBirth,
@@ -106,6 +105,7 @@ contract HealthCard is ERC721 {
         userAddressIDNumber[_IdNumber] = _walletAddress;
 
         _mint(_walletAddress, tokenId);
+        length++;
     }
 
     function getStorageLinkPatient(

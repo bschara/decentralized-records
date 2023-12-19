@@ -1,0 +1,39 @@
+/* SideBar.css */
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: #28ceb2;
+  padding: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+/* Media query for responsive design */
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column; /* Stack items vertically on small screens */
+  }
+
+  .sidebar {
+    width: 100%; /* Full width on small screens */
+    box-sizing: border-box;
+  }
+}
