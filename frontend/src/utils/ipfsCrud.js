@@ -29,6 +29,7 @@ async function addCID(originalCID, cid, char) {
     );
     return;
   }
+  var newCid = " ";
   const storage = new Web3Storage({ token });
   const res = await storage.get(originalCID);
   const files = await res.files();
@@ -41,7 +42,9 @@ async function addCID(originalCID, cid, char) {
     const updatedFileCid = await storage.put([updatedFile]);
     console.log(`Added: ${cid}:${char}`);
     console.log(`Updated File CID: ${updatedFileCid}`);
+    newCid = updatedFileCid;
   }
+  return newCid;
 }
 
 async function deleteByCID(originalCID, cidsToDelete) {
@@ -55,6 +58,7 @@ async function deleteByCID(originalCID, cidsToDelete) {
   }
   const storage = new Web3Storage({ token });
   const fileCID = originalCID;
+  var newCid = " ";
   try {
     const res = await storage.get(fileCID);
     const files = await res.files();
@@ -71,9 +75,11 @@ async function deleteByCID(originalCID, cidsToDelete) {
     const updatedFileCid = await storage.put([updatedFile]);
     console.log(`Deleted: ${cidsArray.join(", ")}`);
     console.log(`Updated File CID: ${updatedFileCid}`);
+    newCid = updatedFileCid;
   } catch (error) {
     console.error("Error:", error);
   }
+  return newCid;
 }
 
 module.exports = { getContent, addCID, deleteByCID };

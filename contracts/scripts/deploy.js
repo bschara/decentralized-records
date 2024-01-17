@@ -1,5 +1,6 @@
 const { ethers } = require("ethers");
-require("dotenv").config();
+// require("dotenv").config();
+const hre = require("hardhat");
 
 async function main() {
   const url =
@@ -7,7 +8,7 @@ async function main() {
 
   let artifacts = await hre.artifacts.readArtifact("HealthCard");
 
-  const provider = new ethers.providers.JsonRpcProvider(url);
+  const provider = new ethers.JsonRpcProvider(url);
 
   let privateKey =
     "270b40805f11ff0b423bdf04ab4b5669a37f98120cbf8bfd179a3a9857025144";
@@ -25,9 +26,9 @@ async function main() {
     "0x368c5122C098b5875B7750b9904407cB974a4A5b"
   );
 
-  console.log("Contract address:", token.address);
+  console.log("Contract address:", token.target);
 
-  await token.deployed();
+  // await token.deployed();
 }
 
 main()

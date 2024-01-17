@@ -28,23 +28,42 @@ const postContent = async () => {
 //   // const name = await Name.create();
 //   // console.log(name.toString());
 //   // console.log(JSON.stringify(name.key));
-//   const name = "k51qzi5uqu5dm3pmp5b46x2kfv5uvhttsqpvc1v0mcvj7zjwb5iq9d37rerbjm";
+//   const name = Name.parse(
+//     "k51qzi5uqu5dm3pmp5b46x2kfv5uvhttsqpvc1v0mcvj7zjwb5iq9d37rerbjm"
+//   );
+//   console.log(name);
 //   const key = loadNewKey();
+//   console.log("0");
+
 //   console.log(key);
+//   console.log("1");
 //   const revision = await Name.v0(name, value);
+//   console.log(revision);
+//   console.log("2");
+
 //   await Name.publish(revision, key);
+//   console.log("3");
 
 //   console.log(revision);
+//   console.log("4");
+
 //   return revision;
 // };
 
 const getUploadedContent = async () => {
   const name = Name.parse(
-    "k51qzi5uqu5dkmb0fh730pugafmiyfbvg9l7j8oscxfrlvcabqz9jn3omew8eo"
+    "k51qzi5uqu5dlxrdn8cqys8dbnpj9r4ned078tgbj5f55m3406jh85rhi0eu2f"
   );
   const revision = await Name.resolve(name);
   console.log("Resolved value:", revision.value);
 };
+
+// const updateContent = async (name, value) => {
+//   const nextValue = value;
+//   const nextRevision = await Name.increment(revision, nextValue);
+//   // const name = Name.parse(name);
+//   await Name.publish(nextRevision, name.key);
+// };
 
 const saveSigningKey = async (outputFilename) => {
   const name = await Name.create();
@@ -70,7 +89,7 @@ const saveNewKey = async () => {
     const keyPair = nacl.sign.keyPair.fromSecretKey(secretKeyBytes);
 
     const privateKeyData = {
-      _secretKey: Array.from(keyPair.secretKey),
+      _key: Array.from(keyPair.secretKey),
       _publicKey: Array.from(keyPair.publicKey),
     };
 
@@ -91,8 +110,8 @@ const loadNewKey = () => {
     const publicKeyBytes = new Uint8Array(privateKeyData._publicKey);
 
     const reconstructedKeyPair = {
-      secretKey: secretKeyBytes,
-      publicKey: publicKeyBytes,
+      _key: secretKeyBytes,
+      _publicKey: publicKeyBytes,
     };
 
     console.log("Private key loaded successfully.");
@@ -102,7 +121,8 @@ const loadNewKey = () => {
     throw error;
   }
 };
-// postContent();
+postContent();
 // saveNewKey();
 // const loadedKeyPair = loadNewKey();
 // console.log("Loaded Key Pair:", loadedKeyPair);
+// getUploadedContent();

@@ -1,8 +1,9 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 3001;
 const { Web3Storage } = require("web3.storage");
-const generateFile = require("./utils/filegenerator");
+const cors = require("cors");
+// const generateFile = require("./utils/filegenerator");
 require("dotenv").config({ path: "./.env" });
 const {
   generateName,
@@ -10,14 +11,27 @@ const {
   retrieveContent,
   updateContent,
 } = require("./utils/w3utils");
+const { initializeStorage } = require("./utils/fileUtils");
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
 
+app.use(cors());
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+app.post("/create-storage", async (req, res) => {
+  try {
+    const result = await initializeStorage();
+    return res.json(result);
+  } catch (error) {
+    console.error("Error create directory:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 app.post("/store-files", async (req, res) => {

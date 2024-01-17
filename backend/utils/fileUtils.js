@@ -3,10 +3,9 @@ const minimist = require("minimist");
 const { Web3Storage, File } = require("web3.storage");
 require("dotenv").config({ path: "../.env" });
 
-async function main() {
-  const args = minimist(process.argv.slice(2));
+const initializeStorage = async () => {
   const token = process.env.WEB3_STORAGE_ACCESS_TOKEN;
-  console.log(token);
+  // console.log(token);
 
   if (!token) {
     console.error(
@@ -20,19 +19,14 @@ async function main() {
   const files = prepareFiles();
   const cid = await storage.put(files);
 
-  console.log("Content added with CID:", cid);
-}
-
-main();
+  // console.log("Content added with CID:", cid);
+  return cid;
+};
 
 function prepareFiles() {
-  const data = "Hello web3.storage!";
-  const data2 = "Hello web3.storage! 😎";
+  const data = "";
 
-  return [
-    new File([data], "/dir/data.txt"),
-    new File([data2], "/dir/data2.txt"),
-    new File([data], "/dir/otherdir/data.txt"),
-    new File([data2], "/dir/otherdir/data2.txt"),
-  ];
+  return [new File([data], "storage.txt")];
 }
+
+module.exports = { initializeStorage };

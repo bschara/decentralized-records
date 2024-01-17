@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Web3Storage } from "web3.storage";
 import "./fileComponent.css";
 import { ethers } from "ethers";
@@ -7,25 +7,35 @@ import HealthCard from "../../../assets/HealthCard.json";
 const { addCID } = require("../../../utils/ipfsCrud.js");
 
 async function getStorageLink(id) {
-  const provider = new ethers.providers.JsonRpcProvider(
-    "http://localhost:8545"
-  );
-  const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
-  const wallet = new ethers.Wallet(
-    "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
-    provider
-  );
+  const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER);
+  const contractAddress = process.env.CONTRACT_ADDRESS;
+  const key = process.env.SECRET_KEY;
+  const wallet = new ethers.Wallet(key, provider);
   const contract = new ethers.Contract(contractAddress, HealthCard.abi, wallet);
 
   // Call the getStorageLinkPatient function
   const result = await contract.getStorageLinkPatient(id);
-
-  console.log("Storage Link:", result);
+  return result;
 }
 
 const FileUploadComponent = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedValue, setSelectedValue] = useState("");
+  const [originalCid, setOriginalCid] = useState("");
+
+  useEffect(() => {
+    const fetchStorageLink = async () => {
+      const cid = await getStorageLink("id1");
+      console.log("Storage Link: ", cid);
+      setOriginalCid(cid);
+      console.log("original cid: " + originalCid);
+    };
+
+    fetchStorageLink();
+  }, []);
+
+  // const originalCid = getStorageLink("id1");
+  // console.log(originalCid);
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files);
@@ -47,11 +57,21 @@ const FileUploadComponent = () => {
   }
 
   const handleUpload = async () => {
+    const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER);
+    const contractAddress = process.env.CONTRACT_ADDRESS;
+    const key = process.env.SECRET_KEY;
+    const wallet = new ethers.Wallet(key, provider);
+    const contract = new ethers.Contract(
+      contractAddress,
+      HealthCard.abi,
+      wallet
+    );
     if (selectedFile) {
       const cid = await storeFiles(selectedFile);
-      const originalCid = await getStorageLink();
-      addCID(originalCid, cid, selectedValue);
+      const newLink = await addCID(originalCid, cid, selectedValue);
       console.log("Uploading file:", selectedFile);
+      await contract.changeStorageLink(newLink);
+      console.log("successfully updated storage link");
     } else {
       alert("Please select a file to upload.");
     }

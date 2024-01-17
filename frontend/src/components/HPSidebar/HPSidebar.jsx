@@ -4,19 +4,15 @@ const HPSideBar = () => {
   return (
     <div className="container">
       <div className="sidebar">
-        <h2>Decentralized Medical Records</h2>
         <ul>
           <li>
-            <a href="/dashboard">Dashboard</a>
+            <a href="/hpdashboard">Dashboard</a>
           </li>
           <li>
-            <a href="/fileupload">Upload Files</a>
+            <a href="/hpuploadfile">Upload Files</a>
           </li>
           <li>
-            <a href="#">Appointments</a>
-          </li>
-          <li>
-            <a href="/emergencyAccess">Emergency Portal</a>
+            <a href="/appointmentSystem">Appointments</a>
           </li>
         </ul>
       </div>
