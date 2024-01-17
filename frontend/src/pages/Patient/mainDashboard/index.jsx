@@ -16,17 +16,12 @@ import HealthCard from "../../../assets/HealthCard.json";
 const { getContent, deleteByCID } = require("../../../utils/ipfsCrud.js");
 
 async function getStorageLink(id) {
-  const provider = new ethers.providers.JsonRpcProvider(
-    "https://eth-sepolia.g.alchemy.com/v2/Ehr8P4YHSfptQ4ZzA3lpIANPZIdnsQQY"
-  );
-  const contractAddress = "0x18617D855BCe228d40Ee4FddF1F01aB5D7f66A33";
-  const wallet = new ethers.Wallet(
-    "dba7659f137d3367f419e9f59822fabee8c7e4edf1b2477b6f6628d3130fd0be",
-    provider
-  );
+  const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER);
+  const contractAddress = process.env.CONTRACT_ADDRESS;
+  const key = process.env.SECRET_KEY;
+  const wallet = new ethers.Wallet(key, provider);
   const contract = new ethers.Contract(contractAddress, HealthCard.abi, wallet);
   const result = await contract.getStorageLinkPatient(id);
-  console.log("Storage Link wehyet allah:", result);
   return result;
 }
 
@@ -98,23 +93,19 @@ const MainDashboard = () => {
   }, []);
 
   const handleDeleteFile = async (prefix, cid) => {
-    // const provider = new ethers.providers.JsonRpcProvider(
-    //   "https://eth-sepolia.g.alchemy.com/v2/Ehr8P4YHSfptQ4ZzA3lpIANPZIdnsQQY"
-    // );
-    // const contractAddress = "0xb26619aaB4Eb475fd1baB9Ea96593B02Cfb78f3F";
-    // const wallet = new ethers.Wallet(
-    //   "dba7659f137d3367f419e9f59822fabee8c7e4edf1b2477b6f6628d3130fd0be",
-    //   provider
-    // );
-    // const contract = new ethers.Contract(
-    //   contractAddress,
-    //   HealthCard.abi,
-    //   wallet
-    // );
-    // const newLink = await deleteByCID(prefix, cid);
-    // console.log("successfully deleted file:");
-    // await contract.changeStorageLink(newLink);
-    // console.log("successfully updated storage link");
+    const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER);
+    const contractAddress = process.env.CONTRACT_ADDRESS;
+    const key = process.env.SECRET_KEY;
+    const wallet = new ethers.Wallet(key, provider);
+    const contract = new ethers.Contract(
+      contractAddress,
+      HealthCard.abi,
+      wallet
+    );
+    const newLink = await deleteByCID(prefix, cid);
+    console.log("successfully deleted file:");
+    await contract.changeStorageLink(newLink);
+    console.log("successfully updated storage link");
     setDeletedFiles([...deletedFiles, { prefix, cid }]);
   };
   return (

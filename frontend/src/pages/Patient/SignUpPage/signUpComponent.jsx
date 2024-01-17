@@ -19,20 +19,15 @@ const SignupComponent = () => {
   const [dob, setDob] = useState("");
 
   async function handlesignup() {
-    const provider = new ethers.providers.JsonRpcProvider(
-      "https://eth-sepolia.g.alchemy.com/v2/Ehr8P4YHSfptQ4ZzA3lpIANPZIdnsQQY"
-    );
-    const contractAddress = "0x18617D855BCe228d40Ee4FddF1F01aB5D7f66A33";
-    const wallet = new ethers.Wallet(
-      "270b40805f11ff0b423bdf04ab4b5669a37f98120cbf8bfd179a3a9857025144",
-      provider
-    );
+    const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER);
+    const contractAddress = process.env.CONTRACT_ADDRESS;
+    const key = process.env.SECRET_KEY;
+    const wallet = new ethers.Wallet(key, provider);
     const contract = new ethers.Contract(
       contractAddress,
       HealthCard.abi,
       wallet
     );
-
     try {
       const formattedDob = dob.toString();
       console.log("Wallet Address:", walletAddress);

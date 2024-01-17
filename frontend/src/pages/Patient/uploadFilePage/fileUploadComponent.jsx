@@ -7,14 +7,10 @@ import HealthCard from "../../../assets/HealthCard.json";
 const { addCID } = require("../../../utils/ipfsCrud.js");
 
 async function getStorageLink(id) {
-  const provider = new ethers.providers.JsonRpcProvider(
-    "https://eth-sepolia.g.alchemy.com/v2/Ehr8P4YHSfptQ4ZzA3lpIANPZIdnsQQY"
-  );
-  const contractAddress = "0x18617D855BCe228d40Ee4FddF1F01aB5D7f66A33";
-  const wallet = new ethers.Wallet(
-    "dba7659f137d3367f419e9f59822fabee8c7e4edf1b2477b6f6628d3130fd0be",
-    provider
-  );
+  const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER);
+  const contractAddress = process.env.CONTRACT_ADDRESS;
+  const key = process.env.SECRET_KEY;
+  const wallet = new ethers.Wallet(key, provider);
   const contract = new ethers.Contract(contractAddress, HealthCard.abi, wallet);
 
   // Call the getStorageLinkPatient function
@@ -61,14 +57,10 @@ const FileUploadComponent = () => {
   }
 
   const handleUpload = async () => {
-    const provider = new ethers.providers.JsonRpcProvider(
-      "https://eth-sepolia.g.alchemy.com/v2/Ehr8P4YHSfptQ4ZzA3lpIANPZIdnsQQY"
-    );
-    const contractAddress = "0x18617D855BCe228d40Ee4FddF1F01aB5D7f66A33";
-    const wallet = new ethers.Wallet(
-      "dba7659f137d3367f419e9f59822fabee8c7e4edf1b2477b6f6628d3130fd0be",
-      provider
-    );
+    const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER);
+    const contractAddress = process.env.CONTRACT_ADDRESS;
+    const key = process.env.SECRET_KEY;
+    const wallet = new ethers.Wallet(key, provider);
     const contract = new ethers.Contract(
       contractAddress,
       HealthCard.abi,
@@ -76,8 +68,6 @@ const FileUploadComponent = () => {
     );
     if (selectedFile) {
       const cid = await storeFiles(selectedFile);
-      // const cidO =
-      //   "bafybeicfsidzxa4viekhleb4tethulgn5bmcbn7trslbqalg6rt2yhys34";
       const newLink = await addCID(originalCid, cid, selectedValue);
       console.log("Uploading file:", selectedFile);
       await contract.changeStorageLink(newLink);

@@ -12,12 +12,11 @@ const AppointmentSystem = () => {
     patientWalletAddress: "",
     healthcareProfessional: "",
   });
-  const walletAddress = "0x368c5122C098b5875B7750b9904407cB974a4A5b";
-  const patientId = "id1"; // Replace with the actual patient ID
+  const walletAddress = process.env.ADDRESS2;
 
   useEffect(() => {
     fetchAppointments();
-  }, [walletAddress]); // Add walletAddress and patientId as dependencies
+  }, [walletAddress]);
 
   const fetchAppointments = () => {
     // Use the correct route for fetching appointments by patient ID

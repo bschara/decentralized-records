@@ -5,11 +5,11 @@ import "./appointmentSystem.css";
 
 const PatientAppointmentSystem = () => {
   const [appointments, setAppointments] = useState([]);
-  const patientId = "id1"; // Replace with the actual patient ID
+  const patientId = "id1";
 
   useEffect(() => {
     fetchAppointments();
-  }, [patientId]); // Add walletAddress and patientId as dependencies
+  }, [patientId]);
 
   const fetchAppointments = () => {
     axios
@@ -24,7 +24,7 @@ const PatientAppointmentSystem = () => {
   return (
     <div className="display-prop">
       <HPSideBar />
-      <table className="table-allah">
+      <table className="table">
         <thead>
           <tr>
             <th>ID</th>
