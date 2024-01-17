@@ -1,4 +1,4 @@
-import FileUploadComponent from "./fileUploadComponent";
+import FileUploadComponent from "./fileUploadComponent.jsx";
 import HBSideBar from "../../../components/HPSidebar/HPSidebar.jsx";
 import "./fileUpload.css";
 // import Header from "../mainDashboard/components/header";

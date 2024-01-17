@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignupComponent from "./pages/Patient/signUpPage/signUpComponent";
+import SignupComponent from "./pages/Patient/signUpPage/signUpComponent.jsx";
 import LoginPage from "./pages/Patient/loginPage/index.jsx";
 import MainDashboard from "./pages/Patient/mainDashboard/index.jsx";
 import LandingPage from "./pages/LandingPage/index.jsx";
