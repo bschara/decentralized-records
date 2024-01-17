@@ -8,10 +8,12 @@ const UploadFile = () => {
     <>
       <div className="head-page">{/* <Header /> */}</div>
       <div className="nabil">
-        <SideBar />
-      </div>
-      <div className="file-form">
-        <FileUploadComponent />
+        <div className="elemnts-1">
+          <SideBar />
+        </div>
+        <div className="file-form">
+          <FileUploadComponent />
+        </div>
       </div>
     </>
   );

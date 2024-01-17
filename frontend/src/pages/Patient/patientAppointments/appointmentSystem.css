@@ -1,0 +1,91 @@
+/* .display-prop {
+  display: flex;
+  flex-direction: row;
+  gap: 7rem;
+  margin-left: 1rem;
+}
+
+.display-prop {
+  display: flex;
+}
+
+.display-prop {
+  display: flex;
+  flex-direction: row;
+  gap: 7rem;
+  margin-left: 1rem;
+}
+
+.display-prop {
+  display: flex;
+}
+
+.table -allah {
+  border-collapse: collapse;
+  max-width: 200px;
+  font-size: 12;
+}
+
+th,
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 5px;
+  font-size: 12;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+button {
+  margin: 5px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+h2 {
+  margin-top: 20px;
+} */
+
+/* Add this to your appointmentSystem.css file */
+
+.display-prop {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem; /* Adjust the gap between the sidebar and table */
+  margin-left: 1rem;
+}
+
+.table-allah {
+  border-collapse: collapse;
+  max-width: 400px;
+  margin: 20px;
+  font-size: 14px; /* Adjust the font size according to your preference */
+}
+
+.table-allah th,
+.table-allah td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  width: 20%; /* Adjust the width of columns */
+  height: 20%;
+}
+
+.table-allah th {
+  background-color: #f2f2f2;
+}
+
+/* Optional: Add styles for buttons */
+.table-allah button {
+  margin: 5px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+/* Optional: Add styles for h2 */
+.table-allah h2 {
+  margin-top: 20px;
+  font-size: 12px; /* Adjust the font size according to your preference */
+}

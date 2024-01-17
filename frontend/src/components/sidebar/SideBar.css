@@ -1,5 +1,3 @@
-/* SideBar.css */
-
 .container {
   display: flex;
   height: 100vh;
@@ -7,6 +5,8 @@
 
 .sidebar {
   background-color: #28ceb2;
+  height: 100%;
+  width: 100%;
   padding: 20px;
 }
 
@@ -26,14 +26,13 @@ a {
   font-weight: bold;
 }
 
-/* Media query for responsive design */
 @media screen and (max-width: 600px) {
   .container {
-    flex-direction: column; /* Stack items vertically on small screens */
+    flex-direction: column;
   }
 
   .sidebar {
-    width: 100%; /* Full width on small screens */
+    width: 100%;
     box-sizing: border-box;
   }
 }

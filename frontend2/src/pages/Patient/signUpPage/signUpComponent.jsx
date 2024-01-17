@@ -22,7 +22,7 @@ const SignupComponent = () => {
     const provider = new ethers.providers.JsonRpcProvider(
       "https://eth-sepolia.g.alchemy.com/v2/Ehr8P4YHSfptQ4ZzA3lpIANPZIdnsQQY"
     );
-    const contractAddress = "0x8A5aa280e5B6C4b454b5cdfBdAD8dC5aFB992bfd";
+    const contractAddress = "0x18617D855BCe228d40Ee4FddF1F01aB5D7f66A33";
     const wallet = new ethers.Wallet(
       "270b40805f11ff0b423bdf04ab4b5669a37f98120cbf8bfd179a3a9857025144",
       provider
@@ -149,37 +149,6 @@ const SignupComponent = () => {
                 name="selectedDate"
                 value={dob}
                 onChange={(e) => setDob(e.target.value)}
-              />
-            </label>
-            <label>
-              Contact 1:
-              <input
-                type="text"
-                name="contact1"
-                value={contact1}
-                onChange={(e) => setContact1(e.target.value)}
-                // required
-              />
-            </label>
-
-            <label>
-              Contact 2:
-              <input
-                type="text"
-                name="contact2"
-                value={contact2}
-                onChange={(e) => setContact2(e.target.value)}
-              />
-            </label>
-          </div>
-          <div className="third-fields">
-            <label>
-              Contact 3:
-              <input
-                type="text"
-                name="contact3"
-                value={contact3}
-                onChange={(e) => setContact3(e.target.value)}
               />
             </label>
           </div>

@@ -3,15 +3,16 @@ import { Typography, Box, Stack, Button } from "@mui/material";
 import Web3 from "web3";
 import HealthCard from "../../../assets/HealthCard.json";
 import "./loginComponent.css";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LoginComponent = () => {
+  const navigate = useNavigate();
   const [web3, setWeb3] = useState(null);
   const [walletAddress, setWalletAddress] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
 
-  const contractAddress = "0x42155016cE4E12B54fCF2B085490B75a37E6ee6a";
-  const contractABI = HealthCard.abi; // Use .abi to access the ABI from the imported JSON
+  const contractAddress = "0x18617D855BCe228d40Ee4FddF1F01aB5D7f66A33";
+  const contractABI = HealthCard.abi;
   const healthCardContract = web3
     ? new web3.eth.Contract(contractABI, contractAddress)
     : null;
@@ -20,7 +21,7 @@ const LoginComponent = () => {
     const initWeb3 = async () => {
       if (window.ethereum) {
         try {
-          await window.ethereum.enable(); // Request user permission
+          await window.ethereum.enable();
           const web3Instance = new Web3(window.ethereum);
           setWeb3(web3Instance);
         } catch (error) {
@@ -60,7 +61,8 @@ const LoginComponent = () => {
           .isRegistered(walletAddress)
           .call();
         if (isWalletRegistered) {
-          alert("Login successful!");
+          // alert("Login successful!");
+          navigate("/patientDashboard");
           setIsRegistered(true);
         } else {
           alert("Wallet is not registered. Please sign up.");

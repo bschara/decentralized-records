@@ -6,13 +6,16 @@ const SideBar = () => {
       <div className="sidebar">
         <ul>
           <li>
-            <a href="/dashboard">Dashboard</a>
+            <a href="/patientDashboard">Dashboard</a>
           </li>
           <li>
-            <a href="/fileupload">Upload Files</a>
+            <a href="/patientFileUpload">Upload Files</a>
           </li>
           <li>
-            <a href="#">Appointments</a>
+            <a href="/patientAccessRequests">Access Requests</a>
+          </li>
+          <li>
+            <a href="/patientappointmentSystem">Appointments</a>
           </li>
         </ul>
       </div>

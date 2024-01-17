@@ -11,7 +11,7 @@ const LoginComponent = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
 
-  const contractAddress = "0x8A5aa280e5B6C4b454b5cdfBdAD8dC5aFB992bfd";
+  const contractAddress = "0x18617D855BCe228d40Ee4FddF1F01aB5D7f66A33";
   const contractABI = HealthCard.abi;
   const healthCardContract = web3
     ? new web3.eth.Contract(contractABI, contractAddress)

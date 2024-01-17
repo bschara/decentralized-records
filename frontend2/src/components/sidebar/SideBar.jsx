@@ -15,7 +15,7 @@ const SideBar = () => {
             <a href="/patientAccessRequests">Access Requests</a>
           </li>
           <li>
-            <a href="#">Appointments</a>
+            <a href="/patientappointmentSystem">Appointments</a>
           </li>
         </ul>
       </div>

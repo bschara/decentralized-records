@@ -48,10 +48,10 @@ contract HealthCard is ERC721 {
     }
 
     Card[] healthCards;
+    AccessRequest[] accessRequestsArray;
     mapping(address => Card) userHCards;
     mapping(string => address) userAddressIDNumber;
     mapping(address => mapping(address => AccessRequest)) public accessRequests;
-
     uint256 public length = 1;
 
     Card private dummy =
@@ -121,6 +121,14 @@ contract HealthCard is ERC721 {
         }
     }
 
+    // function getStorageLinkPatient() public view returns (string memory) {
+    //     if (msg.sender == address(0)) {
+    //         return "user is not registered";
+    //     } else {
+    //         return getHealhCardByAddress(msg.sender).link;
+    //     }
+    // }
+
     function setEmergencyContacts(
         address _address,
         address[3] memory econtacts
@@ -149,9 +157,9 @@ contract HealthCard is ERC721 {
     }
 
     function getStorageLinkForHP(
-        string memory _id,
-        address patient
+        string memory _id
     ) public view returns (string memory) {
+        address patient = userAddressIDNumber[_id];
         require(
             accessRequests[msg.sender][patient].status == AccessStatus.Approved,
             "Access not approved"
@@ -222,7 +230,32 @@ contract HealthCard is ERC721 {
         _;
     }
 
-    function requestAccess(address patient) external {
+    // function requestAccess(string memory _id) external {
+    //     address patient = userAddressIDNumber[_id];
+    //     require(
+    //         accessRequests[msg.sender][patient].status == AccessStatus.None,
+    //         "Access request already exists"
+    //     );
+
+    //     accessRequests[msg.sender][patient] = AccessRequest({
+    //         hpprovider: msg.sender,
+    //         patient: patient,
+    //         status: AccessStatus.Pending,
+    //         expiryTime: 0
+    //     });
+    //     accessRequestsArray.push(
+    //         AccessRequest({
+    //             hpprovider: msg.sender,
+    //             patient: patient,
+    //             status: AccessStatus.Pending,
+    //             expiryTime: 0
+    //         })
+    //     );
+    //     emit AccessRequested(msg.sender, patient);
+    // }
+
+    function requestAccess(string memory _id) external {
+        address patient = userAddressIDNumber[_id];
         require(
             accessRequests[msg.sender][patient].status == AccessStatus.None,
             "Access request already exists"
@@ -234,7 +267,14 @@ contract HealthCard is ERC721 {
             status: AccessStatus.Pending,
             expiryTime: 0
         });
-
+        accessRequestsArray.push(
+            AccessRequest({
+                hpprovider: msg.sender,
+                patient: patient,
+                status: AccessStatus.Pending,
+                expiryTime: 0
+            })
+        );
         emit AccessRequested(msg.sender, patient);
     }
 
@@ -267,6 +307,25 @@ contract HealthCard is ERC721 {
         accessRequests[hprovider][msg.sender].status = AccessStatus.Rejected;
 
         emit AccessRejected(msg.sender, hprovider);
+    }
+
+    function getAccessRequests(
+        address _patient
+    ) external view returns (AccessRequest[] memory) {
+        AccessRequest[] memory requests = new AccessRequest[](
+            accessRequestsArray.length
+        );
+        uint count = 0;
+        for (uint i = 0; i < accessRequestsArray.length; i++) {
+            if (
+                accessRequestsArray[i].patient == _patient &&
+                accessRequestsArray[i].status == AccessStatus.Pending
+            ) {
+                requests[count] = accessRequestsArray[i];
+                count++;
+            }
+        }
+        return requests;
     }
 
     modifier onlyOwner() {
